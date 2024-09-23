@@ -132,11 +132,11 @@ https://github.com/alipay/Pyraformer
 
 https://github.com/MAZiqing/FEDformer
 
-The following two Vision Transformer works also inspire our DSW embedding and HED designs:
-
 https://github.com/google-research/vision_transformer
 
 https://github.com/microsoft/Swin-Transformer
+
+We would like to thank the authors of this work for the availability of their code. And also for allowing us to improve the attention mechanism used in this model, in order to optimize prevosion performance.
 
 https://github.com/Thinklab-SJTU/Crossformer
 
