@@ -1,4 +1,4 @@
-# SSMCrossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)
+# SSM-Crossformer: Attention Mechanisms based on Spatial-Spectral-Masking in Crossformer for Multidimensional Time Series Forcasting
 
 This is the origin Pytorch implementation of [SSMCrossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting](https://openreview.net/forum?id=vSVLM2j9eie).
 
