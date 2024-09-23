@@ -1,6 +1,6 @@
-# Crossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)
+# SSMCrossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting (ICLR 2023)
 
-This is the origin Pytorch implementation of [Crossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting](https://openreview.net/forum?id=vSVLM2j9eie).
+This is the origin Pytorch implementation of [SSMCrossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting](https://openreview.net/forum?id=vSVLM2j9eie).
 
 ## Key Points of Crossformer
 **1. Dimension-Segment-Wise (DSW) Embedding**
@@ -40,13 +40,13 @@ https://github.com/zhouhaoyi/Informer2020. `ILI` and `Traffic` can be downloaded
 
 2. To get results of Crossformer with $T=168, \tau = 24, L_{seg} = 6$ on ETTh1 dataset, run:
 ```
-python main_crossformer.py --data ETTh1 --in_len 168 --out_len 24 --seg_len 6 --itr 1
+python main_ssmcrossformer.py --data ETTh1 --in_len 168 --out_len 24 --seg_len 6 --itr 1
 ```
 The model will be automatically trained and tested. The trained model will be saved in folder `checkpoints/` and evaluated metrics will be saved in folder `results/`.
 
 3. You can also evaluate a trained model by running:
 ```
-python eval_crossformer.py --checkpoint_root ./checkpoints --setting_name Crossformer_ETTh1_il168_ol24_sl6_win2_fa10_dm256_nh4_el3_itr0
+python eval_ssmcrossformer.py --checkpoint_root ./checkpoints --setting_name Crossformer_ETTh1_il168_ol24_sl6_win2_fa10_dm256_nh4_el3_itr0
 ```
 
 4. To reproduce all results in the paper, run following scripts to get corresponding results:
@@ -61,7 +61,7 @@ bash scripts/Traffic.sh
 
 
 ## Custom Usage
-We use the [AirQuality](https://archive.ics.uci.edu/ml/machine-learning-databases/00360/AirQualityUCI.zip) dataset to show how to train and evaluate Crossformer with your own data. 
+We use the [AirQuality](https://archive.ics.uci.edu/ml/machine-learning-databases/00360/AirQualityUCI.zip) dataset to show how to train and evaluate SSMCrossformer with your own data. 
 
 1. Modify the `AirQualityUCI.csv` dataset into the following format, where the first column is date (or you can just leave the first column blank) and the other 13 columns are multivariate time series to forecast. And put the modified file into folder `datasets/`
 <p align="center">
@@ -72,17 +72,17 @@ We use the [AirQuality](https://archive.ics.uci.edu/ml/machine-learning-database
 
 2. This is an hourly-sampled dataset with 13 dimensions. And we are going to use the past week (168 hours) to forecast the next day (24 hour) and the segment length is set to 6. Therefore, we need to run:
 ```
-python main_crossformer.py --data AirQuality --data_path AirQualityUCI.csv --data_dim 13 --in_len 168 --out_len 24 --seg_len 6
+python main_ssmcrossformer.py --data AirQuality --data_path AirQualityUCI.csv --data_dim 13 --in_len 168 --out_len 24 --seg_len 6
 ```
 
 3. We can evaluate the trained model by running:
 ```
-python eval_crossformer.py --setting_name Crossformer_AirQuality_il168_ol24_sl6_win2_fa10_dm256_nh4_el3_itr0 --save_pred
+python eval_ssmcrossformer.py --setting_name SSMCrossformer_AirQuality_il168_ol24_sl6_win2_fa10_dm256_nh4_el3_itr0 --save_pred
 ```
 The model will be evaluated, predicted and ground truth series will be saved in `results/Crossformer_AirQuality_il168_ol24_sl6_win2_fa10_dm256_nh4_el3_itr0`
 
 
-`main_crossformer` is the entry point of our model and there are other parameters that can be tuned. Here we describe them in detail:
+`main_ssmcrossformer` is the entry point of our model and there are other parameters that can be tuned. Here we describe them in detail:
 | Parameter name | Description of parameter |
 | --- | --- |
 | data           | The dataset name                                             |
@@ -117,13 +117,7 @@ The model will be evaluated, predicted and ground truth series will be saved in 
 ## Citation
 If you find this repository useful in your research, please cite:
 ```
-@inproceedings{
-zhang2023crossformer,
-title={Crossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting},
-author={Yunhao Zhang and Junchi Yan},
-booktitle={International Conference on Learning Representations},
-year={2023},
-}
+
 ```
 
 
