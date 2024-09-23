@@ -136,7 +136,7 @@ https://github.com/google-research/vision_transformer
 
 https://github.com/microsoft/Swin-Transformer
 
-We would like to thank the authors of this work for the availability of their code. And also for allowing us to improve the attention mechanism used in this model, in order to optimize prevosion performance.
+We would like to thank the authors of this work for the availability of their code. And also for allowing us to improve the attention mechanism used in this model, in order to optimize forcasting performance.
 
 https://github.com/Thinklab-SJTU/Crossformer
 
