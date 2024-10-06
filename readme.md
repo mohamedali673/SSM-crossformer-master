@@ -2,29 +2,21 @@
 
 This is the origin Pytorch implementation of [SSMCrossformer: Transformer Utilizing Cross-Dimension Dependency for Multivariate Time Series Forecasting](https://openreview.net/forum?id=vSVLM2j9eie).
 
-## Key Points of Crossformer
-**1. Dimension-Segment-Wise (DSW) Embedding**
+## Point of difference between the architecture of SSM-Crossformer and Crossformer
+
+
+
+
+
+
+
+
+**. Spatial-Spectral-Masking-Attention (SSMA)**
 <p align="center">
-<img src=".\pic\DSW.PNG" height = "200" alt="" align=center />
+<img src=".\pic\ssmAttention.PNG" height = "200" alt="" align=center />
 
-<b>Figure 1.</b> DSW embedding. <b>Left</b>: Embedding method of previous Transformer-based model: data points in different dimensions at the same step are embedded into a vector; <b>Right</b>: DSW embedding  of Crossformer: in each dimension, nearby points over time form a segment for embedding.
-</p>
-
-**2. Two-Stage Attention (TSA) Layer**
-<p align="center">
-<img src=".\pic\TSA.PNG" height = "200" alt="" align=center />
-
-<b>Figure 2.</b> TSA layer. <b>Left</b>: Overall structure: the 2D vector array goes through the Cross-Time Stage and Cross-Dimension Stage to get corresponding dependency; <b>Middle</b>: Directly using MSA in Cross-Dimension Stage to build the $D$-to-$D$ 
-connection results in $O(D^2)$ complexity.  <b>Right</b>: Router mechanism for Cross-Dimension Stage: a small fixed number ($c$) of ``routers'' gather and distribute the information among dimensions. The complexity is reduced to $O(2cD) = O(D)$.
-</p>
-
-**3. Hierarchical Encoder-Decoder (HED)**
-<p align="center">
-<img src=".\pic\HED.PNG" height = "200" alt="" align=center />
-
-<b>Figure 3.</b> HED. The encoder (left) uses TSA layer and segment merging to capture dependency at different scales; the decoder (right) makes the final prediction by forecasting at each scale and adding them up.
-</p>
-
+<b>Figure 3.</b> SSSMA uses the principle of Spectral Spatial Maskage (SSM) to pay more attention to strong dependencies between variables, based on the averaging of these elements.  All variables with a value greater than or equal to the mean will have a higher attention score..
+</p>  
 
 ## Requirements
 
@@ -35,10 +27,9 @@ connection results in $O(D^2)$ complexity.  <b>Right</b>: Router mechanism for C
 - einops==0.4.1
 
 ## Reproducibility
-1. Put datasets to conduct experiments into folder `datasets/`. We have already put `ETTh1` and `ETTm1` into it. `WTH` and `ECL` can be downloaded from 
-https://github.com/zhouhaoyi/Informer2020. `ILI` and `Traffic` can be downloaded from https://github.com/thuml/Autoformer. Note that the `WTH` we used in the paper is the one with 12 dimensions from Informer, not the one with 21 dimensions from Autoformer.
+1. Put datasets to conduct experiments into folder `datasets/`. We have already put `ILI` into it.  `ILI` and  can be downloaded from https://github.com/thuml/Autoformer. Note that the `WTH` we used in the paper is the one with 12 dimensions from Informer, not the one with 21 dimensions from Autoformer.
 
-2. To get results of Crossformer with $T=168, \tau = 24, L_{seg} = 6$ on ETTh1 dataset, run:
+2. To get results of SSM-Crossformer with $T=168, \tau = 24, L_{seg} = 6$ on ETTh1 dataset, run:
 ```
 python main_ssmcrossformer.py --data ETTh1 --in_len 168 --out_len 24 --seg_len 6 --itr 1
 ```
@@ -46,7 +37,7 @@ The model will be automatically trained and tested. The trained model will be sa
 
 3. You can also evaluate a trained model by running:
 ```
-python eval_ssmcrossformer.py --checkpoint_root ./checkpoints --setting_name Crossformer_ETTh1_il168_ol24_sl6_win2_fa10_dm256_nh4_el3_itr0
+python eval_ssmcrossformer.py --checkpoint_root ./checkpoints --setting_name SSM-Crossformer_ETTh1_il168_ol24_sl6_win2_fa10_dm256_nh4_el3_itr0
 ```
 
 4. To reproduce all results in the paper, run following scripts to get corresponding results:
@@ -60,26 +51,9 @@ bash scripts/Traffic.sh
 ```
 
 
-## Custom Usage
-We use the [AirQuality](https://archive.ics.uci.edu/ml/machine-learning-databases/00360/AirQualityUCI.zip) dataset to show how to train and evaluate SSMCrossformer with your own data. 
 
-1. Modify the `AirQualityUCI.csv` dataset into the following format, where the first column is date (or you can just leave the first column blank) and the other 13 columns are multivariate time series to forecast. And put the modified file into folder `datasets/`
-<p align="center">
-<img src=".\pic\Data_format.PNG" height = "120" alt="" align=center />
-<br>
-<b>Figure 4.</b> An example of the custom dataset.
-</p>
 
-2. This is an hourly-sampled dataset with 13 dimensions. And we are going to use the past week (168 hours) to forecast the next day (24 hour) and the segment length is set to 6. Therefore, we need to run:
-```
-python main_ssmcrossformer.py --data AirQuality --data_path AirQualityUCI.csv --data_dim 13 --in_len 168 --out_len 24 --seg_len 6
-```
 
-3. We can evaluate the trained model by running:
-```
-python eval_ssmcrossformer.py --setting_name SSMCrossformer_AirQuality_il168_ol24_sl6_win2_fa10_dm256_nh4_el3_itr0 --save_pred
-```
-The model will be evaluated, predicted and ground truth series will be saved in `results/Crossformer_AirQuality_il168_ol24_sl6_win2_fa10_dm256_nh4_el3_itr0`
 
 
 `main_ssmcrossformer` is the entry point of our model and there are other parameters that can be tuned. Here we describe them in detail:
