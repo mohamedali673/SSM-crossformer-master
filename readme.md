@@ -15,7 +15,7 @@ This is the origin Pytorch implementation of [SSMCrossformer: Transformer Utiliz
 <p align="center">
 <img src=".\pic\ssmAttention.PNG" height = "200" alt="" align=center />
 
-<b>Figure 3.</b> SSSMA uses the principle of Spectral Spatial Maskage (SSM) to pay more attention to strong dependencies between variables, based on the averaging of these elements.  All variables with a value greater than or equal to the mean will have a higher attention score..
+<b>Figure 3.</b> SSMA uses the principle of Spectral Spatial Maskage (SSM) to pay more attention to strong dependencies between variables, based on the averaging of these elements.  All variables with a value greater than or equal to the mean will have a higher attention score..
 </p>  
 
 ## Requirements
